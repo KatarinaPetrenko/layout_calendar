@@ -1,3 +1,59 @@
+$arrayOfWeek: (mon: 0, tue: 1, wed: 2, thu: 3, fri: 4, sat: 5, sun: 6);
+
+$widthOfCell: 100px;
+$gapCells: 1px;
+$daysCount: 7;
+
 body {
   margin: 0;
+}
+
+.calendar {
+  width: $daysCount * ($widthOfCell + $gapCells);
+  margin: 50px auto;
+  display: flex;
+  flex-wrap: wrap;
+
+  div {
+    box-sizing: border-box;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    width: 100px;
+    height: 100px;
+    background-color: #eee;
+    border: 1px solid black;
+    display: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    text-align: center;
+    line-height: 100px;
+
+  }
+
+  div:hover {
+    cursor: pointer;
+    background-color: pink;
+    position: relative;
+    bottom: 20px;
+  }
+}
+
+@for $dayNumber from 1 through 31 {
+  .calendar div:nth-child(#{$dayNumber})::after {
+    content: "#{$dayNumber}";
+  }
+}
+
+@each $dayOfWeek, $i in $arrayOfWeek {
+  .calendar-#{$dayOfWeek} div:first-child {
+    margin-left: #{101*$i}px;
+  }
+}
+
+@for $daysOfWeek from 28 through 31 {
+  .calendar-#{$daysOfWeek} {
+    div:nth-child(-n + #{$daysOfWeek}) {
+      display: block;
+    }
+  }
 }
